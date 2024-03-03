@@ -190,12 +190,15 @@ install_base() {
         ;;
     fedora)
         dnf -y update && dnf install -y -q wget curl tar
+        dnf install translate-shell
         ;;
     arch | manjaro)
         pacman -Syu && pacman -Syu --noconfirm wget curl tar
+        pacman -S translate-shell
         ;;
     *)
         apt-get update && apt install -y -q wget curl tar
+        apt install translate-shell
         ;;
     esac
     cd /usr/local/
@@ -247,7 +250,6 @@ install_base() {
     sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -nodes -subj "/C=XX/ST=StateName/L=CityName/O=CompanyName/OU=CompanySectionName/CN=CommonNameOrHostname" -keyout /etc/ssl/v2ray/priv.key -out /etc/ssl/v2ray/cert.pub
     apt install speedtest-cli
     testspeed=$(speedtest-cli --simple | awk '/Download/{print $2,$3}')
-    apt install translate-shell
     sudo iptables -I INPUT -p tcp --dport 1:65535 -j ACCEPT
     sudo iptables -I OUTPUT -p tcp --dport 1:65535 -j ACCEPT
     sudo iptables -I INPUT -p udp --dport 1:65535 -j ACCEPT
