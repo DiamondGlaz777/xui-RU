@@ -196,6 +196,10 @@ install_base() {
         pacman -Syu && pacman -Syu --noconfirm wget curl tar
         pacman -S translate-shell
         ;;
+    debian)
+        apt update && apt upgrade && apt install translate-shell && apt install -y -q wget curl tar
+        
+        ;;
     *)
         apt-get update && apt install -y -q wget curl tar
         apt install translate-shell
@@ -372,7 +376,14 @@ finvps() {
         ipcn2=$(echo $ipcn | cut -c 12-|rev|cut -c2- |rev)
         ipcon1=$(trans -b :ru $ipcn2 | tr a-z A-Z)
         echo -e "${yellow}Ваша страна :${green} $ipmax"
+         case "${release}" in
+    debian)
+        echo -e "${yellow}Реальная страна(ip) :${green} $ipcn2"
+        ;;
+    *)
         echo -e "${yellow}Реальная страна(ip) :${green} $ipcon1"
+        ;;
+    esac
         memor=$(cat /proc/meminfo | head -n 1| awk '{print $2}')
         memp=$(echo $memor | awk '{print (scale=$1/1024/1024)}')
         ozy=$(printf "%.1f\n" "$memp")
