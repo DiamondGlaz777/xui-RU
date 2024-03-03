@@ -375,11 +375,13 @@ finvps() {
         ipcn=$(curl -s https://api.ip.sb/geoip/$ip_address -A Mozilla | awk -F "[,]+" '/country/{print $(NF-4)}')
         ipcn2=$(echo $ipcn | cut -c 12-|rev|cut -c2- |rev)
         echo -e "${yellow}Ваша страна :${green} $ipmax"
-         case "${release}" in
+        case "${release}" in
     debian)
         echo -e "${yellow}Реальная страна(ip) :${green} $ipcn2"
         ;;
-    *)
+    *)  
+        ipcn=$(curl -s https://api.ip.sb/geoip/$ip_address -A Mozilla | awk -F "[,]+" '/country/{print $(NF-4)}')
+        ipcn2=$(echo $ipcn | cut -c 12-|rev|cut -c2- |rev)
         ipcon1=$(trans -b :ru $ipcn2 | tr a-z A-Z)
         echo -e "${yellow}Реальная страна(ip) :${green} $ipcon1"
         ;;
