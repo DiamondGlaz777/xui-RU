@@ -21,7 +21,7 @@ else
     exit 1
 fi
 echo -e "${green}Ваша ОС: $release ${plain}"
-echo -e "${yellow}Начинаем установку x-ui.Это займёт ${red}некоторое время. ${plain}"
+echo -e "${yellow}Начинаем установку 3x-ui.Это займёт ${red}некоторое время. ${plain}"
 arch3xui() {
     case "$(uname -m)" in
     x86_64 | x64 | amd64) echo 'amd64' ;;
