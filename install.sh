@@ -8,7 +8,7 @@ plain='\033[0m'
 echo -e "${red}Создатель: ${green} t.me/DiamondGlaz${plain}"
 cur_dir=$(pwd)
 # check root
-[[ $EUID -ne 0 ]] && echo -e "${red}Ошибка: ${plain} Пожалуйста запустите от имени ROOT.Напишите su " && su
+[[ $EUID -ne 0 ]] && echo -e "${red}Ошибка: ${plain} Пожалуйста запустите от имени ROOT.Напишите su " && exit 1
 # Check OS and set release variable
 if [[ -f /etc/os-release ]]; then
     source /etc/os-release
