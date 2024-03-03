@@ -8,7 +8,7 @@ plain='\033[0m'
 echo -e "${red}Создатель: ${green} t.me/DiamondGlaz${plain}"
 cur_dir=$(pwd)
 # check root
-[[ $EUID -ne 0 ]] && echo -e "${red}Ошибка: ${plain} Пожалуйста запустите от имени ROOT.Напишите sudo su " && exit 1
+[[ $EUID -ne 0 ]] && echo -e "${red}Ошибка: ${plain} Пожалуйста запустите от имени ROOT.Напишите su " && su
 # Check OS and set release variable
 if [[ -f /etc/os-release ]]; then
     source /etc/os-release
@@ -250,15 +250,15 @@ install_base() {
     /usr/local/x-ui/x-ui setting -username freenet -password freenet
     /usr/local/x-ui/x-ui setting -port 2024
     /usr/local/x-ui/x-ui migrate
-    sudo mkdir -p /etc/ssl/v2ray/
-    sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -nodes -subj "/C=XX/ST=StateName/L=CityName/O=CompanyName/OU=CompanySectionName/CN=CommonNameOrHostname" -keyout /etc/ssl/v2ray/priv.key -out /etc/ssl/v2ray/cert.pub
+    mkdir -p /etc/ssl/v2ray/
+    openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -nodes -subj "/C=XX/ST=StateName/L=CityName/O=CompanyName/OU=CompanySectionName/CN=CommonNameOrHostname" -keyout /etc/ssl/v2ray/priv.key -out /etc/ssl/v2ray/cert.pub
     apt install speedtest-cli
     testspeed=$(speedtest-cli --simple | awk '/Download/{print $2,$3}')
-    sudo iptables -I INPUT -p tcp --dport 1:65535 -j ACCEPT
-    sudo iptables -I OUTPUT -p tcp --dport 1:65535 -j ACCEPT
-    sudo iptables -I INPUT -p udp --dport 1:65535 -j ACCEPT
-    sudo iptables -I OUTPUT -p udp --dport 1:65535 -j ACCEPT
-    sudo /sbin/iptables-save
+    iptables -I INPUT -p tcp --dport 1:65535 -j ACCEPT
+    iptables -I OUTPUT -p tcp --dport 1:65535 -j ACCEPT
+    iptables -I INPUT -p udp --dport 1:65535 -j ACCEPT
+    iptables -I OUTPUT -p udp --dport 1:65535 -j ACCEPT
+    /sbin/iptables-save
     echo "net.core.default_qdisc=fq" | tee -a /etc/sysctl.conf
     echo "net.ipv4.tcp_congestion_control=bbr" | tee -a /etc/sysctl.conf
     echo "10" > /proc/sys/kernel/panic
@@ -268,48 +268,48 @@ swapp() {
 if [[ "${memor}" > 500000 ]]; then
         echo -e " ${yellow}Swap на 1Гб создан!${plain}"
         echo -e " ${fuls}Буст включается при свободной ОЗУ<500MB!${plain}"
-        sudo fallocate -l 1G /swapfile &> /dev/null
-        sudo mkswap /swapfile &> /dev/null
-        sudo swapon /swapfile &> /dev/null
-        echo '/swapfile none swap defaults,pri=10 0 0' | sudo tee -a /etc/fstab &> /dev/null
-        echo 'vm.min_free_kbytes=500000' | sudo tee -a /etc/sysctl.conf &> /dev/null
-        echo 'vm.vfs_cache_pressure=1000' | sudo tee -a /etc/sysctl.conf &> /dev/null
-        echo 'vm.overcommit_memory=1' | sudo tee -a /etc/sysctl.conf &> /dev/null
-        sudo sysctl -p &> /dev/null
+        fallocate -l 1G /swapfile &> /dev/null
+        mkswap /swapfile &> /dev/null
+        swapon /swapfile &> /dev/null
+        echo '/swapfile none swap defaults,pri=10 0 0' | tee -a /etc/fstab &> /dev/null
+        echo 'vm.min_free_kbytes=500000' | tee -a /etc/sysctl.conf &> /dev/null
+        echo 'vm.vfs_cache_pressure=1000' | tee -a /etc/sysctl.conf &> /dev/null
+        echo 'vm.overcommit_memory=1' | tee -a /etc/sysctl.conf &> /dev/null
+        sysctl -p &> /dev/null
 elif [[ "$memor" > 200000 ]]; then
         echo -e " ${yellow}Swap на 1Гб создан!${plain}"
         echo -e " ${fuls}Буст включается при свободной ОЗУ<200MB!${plain}"
-        sudo fallocate -l 1G /swapfile &> /dev/null
-        sudo mkswap /swapfile &> /dev/null
-        sudo swapon /swapfile &> /dev/null
-        echo '/swapfile none swap defaults,pri=10 0 0' | sudo tee -a /etc/fstab &> /dev/null
-        echo 'vm.min_free_kbytes=200000' | sudo tee -a /etc/sysctl.conf &> /dev/null
-        echo 'vm.vfs_cache_pressure=1000' | sudo tee -a /etc/sysctl.conf &> /dev/null
-        echo 'vm.overcommit_memory=1' | sudo tee -a /etc/sysctl.conf &> /dev/null
-        sudo sysctl -p &> /dev/null
+        fallocate -l 1G /swapfile &> /dev/null
+        mkswap /swapfile &> /dev/null
+        swapon /swapfile &> /dev/null
+        echo '/swapfile none swap defaults,pri=10 0 0' | tee -a /etc/fstab &> /dev/null
+        echo 'vm.min_free_kbytes=200000' | tee -a /etc/sysctl.conf &> /dev/null
+        echo 'vm.vfs_cache_pressure=1000' | tee -a /etc/sysctl.conf &> /dev/null
+        echo 'vm.overcommit_memory=1' | tee -a /etc/sysctl.conf &> /dev/null
+        sysctl -p &> /dev/null
 elif [[ "$memor" > 700000 ]]; then
         echo -e " ${yellow}Swap на 1Гб создан!${plain}"
         echo -e " ${fuls}Буст включается при свободной ОЗУ<400MB!${plain}"
-        sudo fallocate -l 1G /swapfile &> /dev/null
-        sudo mkswap /swapfile &> /dev/null
-        sudo swapon /swapfile &> /dev/null
-        echo '/swapfile none swap defaults,pri=10 0 0' | sudo tee -a /etc/fstab &> /dev/null
-        echo 'vm.min_free_kbytes=400000' | sudo tee -a /etc/sysctl.conf &> /dev/null
-        echo 'vm.vfs_cache_pressure=1000' | sudo tee -a /etc/sysctl.conf &> /dev/null
-        echo 'vm.overcommit_memory=1' | sudo tee -a /etc/sysctl.conf &> /dev/null
-        sudo sysctl -p &> /dev/null
+        fallocate -l 1G /swapfile &> /dev/null
+        mkswap /swapfile &> /dev/null
+        swapon /swapfile &> /dev/null
+        echo '/swapfile none swap defaults,pri=10 0 0' | tee -a /etc/fstab &> /dev/null
+        echo 'vm.min_free_kbytes=400000' | tee -a /etc/sysctl.conf &> /dev/null
+        echo 'vm.vfs_cache_pressure=1000' | tee -a /etc/sysctl.conf &> /dev/null
+        echo 'vm.overcommit_memory=1' | tee -a /etc/sysctl.conf &> /dev/null
+        sysctl -p &> /dev/null
 
 elif [[ "${memor}" > 1000000 ]]; then
         echo -e " ${yellow}Swap на 2Гб создан!${plain}"
         echo -e " ${fuls}Буст включается при свободной ОЗУ<1ГБ!${plain}"
-        sudo fallocate -l 1G /swapfile &> /dev/null
-        sudo mkswap /swapfile &> /dev/null
-        sudo swapon /swapfile &> /dev/null
-        echo '/swapfile none swap defaults,pri=10 0 0' | sudo tee -a /etc/fstab &> /dev/null
-        echo 'vm.min_free_kbytes=2000000' | sudo tee -a /etc/sysctl.conf &> /dev/null
-        echo 'vm.vfs_cache_pressure=1000' | sudo tee -a /etc/sysctl.conf &> /dev/null
-        echo 'vm.overcommit_memory=1' | sudo tee -a /etc/sysctl.conf &> /dev/null
-        sudo sysctl -p &> /dev/null
+        fallocate -l 1G /swapfile &> /dev/null
+        mkswap /swapfile &> /dev/null
+        swapon /swapfile &> /dev/null
+        echo '/swapfile none swap defaults,pri=10 0 0' | tee -a /etc/fstab &> /dev/null
+        echo 'vm.min_free_kbytes=2000000' | tee -a /etc/sysctl.conf &> /dev/null
+        echo 'vm.vfs_cache_pressure=1000' | tee -a /etc/sysctl.conf &> /dev/null
+        echo 'vm.overcommit_memory=1' | tee -a /etc/sysctl.conf &> /dev/null
+        sysctl -p &> /dev/null
 elif [[ "${memor}" > 2000000 ]]; then
         echo -e "${red}Вам не требуется файл подкачки!${plain}"
 else
@@ -332,9 +332,9 @@ if [[ "${conq1}" == "1" ]]; then
         swapp $1
 elif [[ "${conq1}" == "2" ]]; then
         echo -e " ${green}Автоперезагрузка ровно в полночь по системному времени vps!${plain}"
-        echo '0 0 * * * root /sbin/shutdown -r' | sudo tee -a /etc/cron.d/reboot &> /dev/null
-        echo '1 0 * * * root sudo swapoff -a' | sudo tee -a /etc/cron.d/reboot &> /dev/null
-        echo '2 0 * * * root sudo swapon -a ' | sudo tee -a /etc/cron.d/reboot &> /dev/null
+        echo '0 0 * * * root /sbin/shutdown -r' | tee -a /etc/cron.d/reboot &> /dev/null
+        echo '1 0 * * * root swapoff -a' | tee -a /etc/cron.d/reboot &> /dev/null
+        echo '2 0 * * * root swapon -a ' | tee -a /etc/cron.d/reboot &> /dev/null
         swapp $1
 elif [[ "${conq1}" == "3" ]]; then      
         read -rp "Укажите время бана [По умолчанию: 30 минут]: " NUM
@@ -346,12 +346,12 @@ elif [[ "${conq1}" == "3" ]]; then
         fi
 elif [[ "${conq1}" == "4" ]]; then
         cd /usr/bin/
-        sudo rm -R x-ui
+        rm -R x-ui
 elif [[ "${conq1}" == "5" ]]; then
         ip -a
 elif [[ "${conq1}" == "6" ]]; then
-        sudo adduser test
-        sudo adduser test sudo
+        adduser test
+        adduser test sudo
         echo -e " ${green}Пользователь test создан с пользовательским паролем!${plain}"
     else
         echo -e "${blue}P.s:Не благодарите.Ваш DiamondGlaz${plain}"
