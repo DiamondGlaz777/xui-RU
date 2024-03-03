@@ -276,6 +276,7 @@ if [[ "${memor}" > 500000 ]]; then
         echo 'vm.vfs_cache_pressure=1000' | tee -a /etc/sysctl.conf &> /dev/null
         echo 'vm.overcommit_memory=1' | tee -a /etc/sysctl.conf &> /dev/null
         sysctl -p &> /dev/null
+        bust $1
 elif [[ "$memor" > 200000 ]]; then
         echo -e " ${yellow}Swap на 1Гб создан!${plain}"
         echo -e " ${fuls}Буст включается при свободной ОЗУ<200MB!${plain}"
@@ -287,6 +288,7 @@ elif [[ "$memor" > 200000 ]]; then
         echo 'vm.vfs_cache_pressure=1000' | tee -a /etc/sysctl.conf &> /dev/null
         echo 'vm.overcommit_memory=1' | tee -a /etc/sysctl.conf &> /dev/null
         sysctl -p &> /dev/null
+        bust $1
 elif [[ "$memor" > 700000 ]]; then
         echo -e " ${yellow}Swap на 1Гб создан!${plain}"
         echo -e " ${fuls}Буст включается при свободной ОЗУ<400MB!${plain}"
@@ -298,6 +300,7 @@ elif [[ "$memor" > 700000 ]]; then
         echo 'vm.vfs_cache_pressure=1000' | tee -a /etc/sysctl.conf &> /dev/null
         echo 'vm.overcommit_memory=1' | tee -a /etc/sysctl.conf &> /dev/null
         sysctl -p &> /dev/null
+        bust $1
 
 elif [[ "${memor}" > 1000000 ]]; then
         echo -e " ${yellow}Swap на 2Гб создан!${plain}"
@@ -310,6 +313,7 @@ elif [[ "${memor}" > 1000000 ]]; then
         echo 'vm.vfs_cache_pressure=1000' | tee -a /etc/sysctl.conf &> /dev/null
         echo 'vm.overcommit_memory=1' | tee -a /etc/sysctl.conf &> /dev/null
         sysctl -p &> /dev/null
+        bust $1
 elif [[ "${memor}" > 2000000 ]]; then
         echo -e "${red}Вам не требуется файл подкачки!${plain}"
 else
@@ -323,9 +327,7 @@ echo -e "${green}Доп меню:${plain}"
 echo -e "${yellow}1 -Swap без автоперезагрузки${plain}"
 echo -e "${yellow}2 -Swap с автоперезагрузкой в полночь${plain}"
 echo -e "${yellow}3 -Сменить время бана клиентов по IP ${plain}"
-echo -e "${yellow}4 -Удалить команду x-ui${plain}"
-echo -e "${yellow}5 -Посмотреть ip-адреса сервера${plain}"
-echo -e "${yellow}6 -Создать нового рут пользователя${plain}"
+echo -e "${yellow}4 -Создать нового рут пользователя${plain}"
 echo -e "${red}Любое другое ,чтобы скипнуть меню.${plain}"
 read -p "": conq1
 if [[ "${conq1}" == "1" ]]; then
@@ -344,26 +346,26 @@ elif [[ "${conq1}" == "3" ]]; then
         else
             echo -e "${red}${NUM} это не число! Пожалуйста, повторите.${plain}"
         fi
+        bust $1
 elif [[ "${conq1}" == "4" ]]; then
-        cd /usr/bin/
-        rm -R x-ui
-elif [[ "${conq1}" == "5" ]]; then
-        ip -a
-elif [[ "${conq1}" == "6" ]]; then
         adduser test
         adduser test sudo
         echo -e " ${green}Пользователь test создан с пользовательским паролем!${plain}"
+        bust $1
     else
         echo -e "${blue}P.s:Не благодарите.Ваш DiamondGlaz${plain}"
          fi
 }
 
-finvps() {
-        echo -e "${green}Генерация сертификата SSL и Открытие всех портов ....${plain}"
+clears(){
+echo -e "${green}Генерация сертификата SSL и Открытие всех портов ....${plain}"
         echo -e "${yellow}Установка завершена! В целях безопасности рекомендуется изменить настройки панели через команду x-ui .Либо через web panel. ${plain}"
         echo -e "${green}Очистка консоли через 3 секунды..."
         sleep 3
         clear
+}
+
+finvps() {
         echo -e "${green}Скрипт создал DiamondGlaz"
         echo -e "${plain}----------------------------------------------"
         echo -e "${yellow}Логин/Пароль: ${green} freenet ${plain}"
@@ -401,4 +403,5 @@ finvps() {
 }
 install_iplimit
 install_base
+clears
 finvps $1
