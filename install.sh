@@ -309,7 +309,7 @@ elif [[ "${memor}" > 1000000 ]]; then
         mkswap /swapfile &> /dev/null
         swapon /swapfile &> /dev/null
         echo '/swapfile none swap defaults,pri=10 0 0' | tee -a /etc/fstab &> /dev/null
-        echo 'vm.min_free_kbytes=2000000' | tee -a /etc/sysctl.conf &> /dev/null
+        echo 'vm.min_free_kbytes=1000000' | tee -a /etc/sysctl.conf &> /dev/null
         echo 'vm.vfs_cache_pressure=1000' | tee -a /etc/sysctl.conf &> /dev/null
         echo 'vm.overcommit_memory=1' | tee -a /etc/sysctl.conf &> /dev/null
         sysctl -p &> /dev/null
