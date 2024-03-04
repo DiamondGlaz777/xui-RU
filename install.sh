@@ -197,7 +197,7 @@ install_base() {
         pacman -S translate-shell
         ;;
     debian)
-        apt update && apt upgrade && apt install translate-shell && apt install -y -q wget curl tar
+        apt update && apt upgrade && apt install -y -q wget curl tar
         
         ;;
     *)
