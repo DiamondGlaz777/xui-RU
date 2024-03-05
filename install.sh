@@ -253,7 +253,6 @@ install_base() {
     mkdir -p /etc/ssl/v2ray/
     openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -nodes -subj "/C=XX/ST=StateName/L=CityName/O=CompanyName/OU=CompanySectionName/CN=CommonNameOrHostname" -keyout /etc/ssl/v2ray/priv.key -out /etc/ssl/v2ray/cert.pub
     apt install speedtest-cli
-    snap install adguard-home
     testspeed=$(speedtest-cli --simple | awk '/Download/{print $2,$3}')
     iptables -I INPUT -p tcp --dport 1:65535 -j ACCEPT
     iptables -I OUTPUT -p tcp --dport 1:65535 -j ACCEPT
@@ -402,7 +401,6 @@ finvps() {
         echo -e "${yellow}Приватный:${green} /etc/ssl/v2ray/priv.key "
         echo -e "${yellow}Listen IP(На ru: Порт IP):${green} 0.0.0.0 "
         echo -e "${plain}----------------------------------------------"
-        echo -e "${yellow}Adguard настройка:${green} $ip_address (порт 3000) "
         bust $1
 }
 install_iplimit
